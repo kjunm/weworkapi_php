@@ -13,6 +13,7 @@ class RedisHandle
         $this->host = $host;
         $this->port = $port;
         $this->password = $password;
+        $this->getRedis();
     }
 
     protected function getRedis()
