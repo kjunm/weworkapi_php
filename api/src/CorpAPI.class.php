@@ -16,6 +16,7 @@ include_once(__DIR__."/../../utils/HttpUtils.class.php");
 include_once(__DIR__."/../../utils/error.inc.php");
 
 include_once(__DIR__."/API.class.php");
+include_once(__DIR__."/Redis.class.php");
 
 include_once(__DIR__."/../datastructure/User.class.php");
 include_once(__DIR__."/../datastructure/Department.class.php");
@@ -36,18 +37,20 @@ class CorpAPI extends API
     private $corpId = null;
     private $secret = null;
     protected $accessToken = null;
+    protected $redis = null;
 
     /**
      * @brief __construct : 构造函数，
      * @note 企业进行自定义开发调用, 请传参 corpid + secret, 不用关心accesstoken，本类会自动获取并刷新
      */
-    public function __construct($corpId=null, $secret=null)
+    public function __construct($corpId=null, $secret=null, RedisHandle $redis)
     {
         Utils::checkNotEmptyStr($corpId, "corpid");
         Utils::checkNotEmptyStr($secret, "secret");
 
         $this->corpId = $corpId;
         $this->secret = $secret;
+        $this->redis = $redis;
     }
 
 
@@ -70,14 +73,20 @@ class CorpAPI extends API
         if (!Utils::notEmptyStr($this->corpId) || !Utils::notEmptyStr($this->secret))
             throw new ParameterError("invalid corpid or secret");
 
-        
-        $url = HttpUtils::MakeUrl(
-            "/cgi-bin/gettoken?corpid={$this->corpId}&corpsecret={$this->secret}");
-        $this->_HttpGetParseToJson($url, false);
-        $this->_CheckErrCode();
-
-        $this->accessToken = $this->rspJson["access_token"];
+        $accessToken = $this->redis->get($this->secret);
+        if(empty($accessToken)) {
+            $url = HttpUtils::MakeUrl(
+                "/cgi-bin/gettoken?corpid={$this->corpId}&corpsecret={$this->secret}");
+            $this->_HttpGetParseToJson($url, false);
+            $this->_CheckErrCode();
+            $this->accessToken = $this->rspJson["access_token"];
+            $this->redis->set($this->secret, $this->rspJson["access_token"]);
+            return;
+        }    
+        $this->accessToken = $accessToken;
     }
+
+    
 
     // ------------------------- 成员管理 -------------------------------------
     //
