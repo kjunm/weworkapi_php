@@ -1,11 +1,11 @@
 <?php
+include_once(__DIR__ . "./../../utils/Utils.class.php");
 class RedisHandle
 {
     private $host;
     private $port;
     private $password;
     protected $redis = null;
-
 
     public function __construct($host = null, $port = 6379, $password = "")
     {

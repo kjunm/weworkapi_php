@@ -60,7 +60,7 @@ class CorpAPI extends API
      *
      * @return : string accessToken
      */
-    protected function GetAccessToken()
+    public function GetAccessToken()
     {
         if ( ! Utils::notEmptyStr($this->accessToken)) { 
             $this->RefreshAccessToken();
@@ -68,7 +68,7 @@ class CorpAPI extends API
         return $this->accessToken;
     }
 
-    protected function RefreshAccessToken()
+    public function RefreshAccessToken()
     {
         if (!Utils::notEmptyStr($this->corpId) || !Utils::notEmptyStr($this->secret))
             throw new ParameterError("invalid corpid or secret");
