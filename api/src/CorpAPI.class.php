@@ -80,7 +80,7 @@ class CorpAPI extends API
             $this->_HttpGetParseToJson($url, false);
             $this->_CheckErrCode();
             $this->accessToken = $this->rspJson["access_token"];
-            $this->redis->set($this->secret, $this->rspJson["access_token"]);
+            $this->redis->set($this->secret, $this->rspJson["access_token"], 7200);
             return;
         }    
         $this->accessToken = $accessToken;
