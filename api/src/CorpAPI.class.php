@@ -70,6 +70,7 @@ class CorpAPI extends API
         if (!Utils::notEmptyStr($this->corpId) || !Utils::notEmptyStr($this->secret))
             throw new ParameterError("invalid corpid or secret");
 
+        
         $url = HttpUtils::MakeUrl(
             "/cgi-bin/gettoken?corpid={$this->corpId}&corpsecret={$this->secret}");
         $this->_HttpGetParseToJson($url, false);
