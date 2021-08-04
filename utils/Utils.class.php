@@ -4,38 +4,38 @@ include_once(__DIR__."/error.inc.php");
 
 class Utils { 
 
-    static public function notEmptyStr($var)
+    public static function notEmptyStr($var)
     {
         return is_string($var) && ($var != "");
     }
 
-    static public function checkNotEmptyStr($var, $name)
+    public static function checkNotEmptyStr($var, $name)
     {
         if (!self::notEmptyStr($var))
             throw new ParameterError($name . " can not be empty string");
     }
 
-    static public function checkIsUInt($var, $name)
+    public static function checkIsUInt($var, $name)
     {
         if (!(is_int($var) && $var >= 0))
             throw new ParameterError($name . " need unsigned int");
     }
 
-    static public function checkNotEmptyArray($var, $name)
+    public static function checkNotEmptyArray($var, $name)
     {
         if (!is_array($var) || count($var) == 0) {
             throw new ParameterError($name . " can not be empty array");
         }
     }
 
-    static public function setIfNotNull($var, $name, &$args)
+    public static function setIfNotNull($var, $name, &$args)
     {
         if (!is_null($var)) {
             $args[$name] = $var;
         }
     }
 
-    static public function arrayGet($array, $key, $default=null)
+    public static function arrayGet($array, $key, $default=null)
     {
         if (array_key_exists($key, $array))
             return $array[$key];

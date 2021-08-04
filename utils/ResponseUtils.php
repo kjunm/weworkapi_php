@@ -27,7 +27,7 @@ class ResponseUtils
         );
     }
 
-    public static function fail($message = "", $error_code = 1, $data = [])
+    public static function fail($message = "", $error_code = 0, $data = [])
     {
         return json_encode(
             [
