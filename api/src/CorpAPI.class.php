@@ -70,7 +70,7 @@ class CorpAPI extends API
         return $this->accessToken;
     }
 
-    public function RefreshAccessToken()
+    public function RefreshAccessToken($expire=7200)
     {
         if (!Utils::notEmptyStr($this->corpId) || !Utils::notEmptyStr($this->secret)) {
             throw new ParameterError("invalid corpid or secret");
@@ -81,7 +81,7 @@ class CorpAPI extends API
         $this->_HttpGetParseToJson($url, false);
         $this->_CheckErrCode();
         $this->accessToken = $this->rspJson["access_token"];
-        $this->redis->set($this->secret, $this->rspJson["access_token"], 7200);
+        $this->redis->set($this->secret, $this->rspJson["access_token"], $expire);
         return $this->accessToken;
     }
 
