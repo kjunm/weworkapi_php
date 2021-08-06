@@ -48,7 +48,7 @@ class Utils {
 	 * @param array $arr 数组
 	 * @return object
 	 */
-	function Array2Object($arr) {
+	public static function Array2Object($arr) {
 		if (gettype($arr) != 'array') {
 			return;
 		}
@@ -67,7 +67,7 @@ class Utils {
 	 * @param object $obj 对象
 	 * @return array
 	 */
-	function Object2Array($object) { 
+	public static function Object2Array($object) { 
 		if (is_object($object) || is_array($object)) {
             $array = array();
 			foreach ($object as $key => $value) {
@@ -81,7 +81,7 @@ class Utils {
 		}
 	}
     //数组转XML
-    function Array2Xml($rootName, $arr)
+    public static function Array2Xml($rootName, $arr)
     {
         $xml = "<".$rootName.">";
         foreach ($arr as $key=>$val) {
@@ -96,7 +96,7 @@ class Utils {
     }
 
     //将XML转为array
-    function Xml2Array($xml)
+    public static function Xml2Array($xml)
     {    
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
