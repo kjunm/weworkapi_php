@@ -36,6 +36,7 @@ class User
 	public $enable = null; // uint
 	public $extattr = null;  // ExtattrList
     public $status = null; // uint, 激活状态: 1=已激活，2=已禁用，4=未激活。已激活代表已激活企业微信或已关注微信插件。未激活代表既未激活企业微信又未关注微信插件。
+    public $avatar = null; //头像
 
 	static public function Array2User($arr)
 	{
@@ -55,6 +56,7 @@ class User
         $user->avatar_mediaid = Utils::arrayGet($arr, "avatar_mediaid");
         $user->enable = Utils::arrayGet($arr, "enable");
         $user->status = Utils::arrayGet($arr, "status");
+        $user->avatar = Utils::arrayGet($arr, 'avatar');
 
         if (array_key_exists("extattr", $arr)) { 
             $attrs = $arr["extattr"]["attrs"];
