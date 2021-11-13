@@ -96,7 +96,7 @@ abstract class API
         } else if ('GET' == $method) { 
             if (count($args) > 0) { 
                 foreach ($args as $key => $value) {
-                    if ($value == null) continue;
+                    if (is_null($value)) continue;
                     if (strpos($url, '?')) {
                         $url .= ('&'.$key.'='.$value);
                     } else { 

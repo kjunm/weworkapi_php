@@ -38,13 +38,14 @@ class CorpAPI extends API
     private $secret = null;
     protected $accessToken = null;
     protected $redis = null;
+    protected $prefix = null;
 
 
     /**
      * @brief __construct : 构造函数，
      * @note 企业进行自定义开发调用, 请传参 corpid + secret, 不用关心accesstoken，本类会自动获取并刷新
      */
-    public function __construct($corpId = null, $secret = null, RedisHandle $redis)
+    public function __construct($corpId = null, $secret = null, RedisHandle $redis, $prefix)
     {
         Utils::checkNotEmptyStr($corpId, "corpid");
         Utils::checkNotEmptyStr($secret, "secret");
@@ -52,6 +53,7 @@ class CorpAPI extends API
         $this->corpId = $corpId;
         $this->secret = $secret;
         $this->redis = $redis;
+        $this->prefix = $prefix;
     }
 
 
@@ -64,7 +66,7 @@ class CorpAPI extends API
     public function GetAccessToken()
     {
         if (!Utils::notEmptyStr($this->accessToken)) {
-            $accessToken = $this->redis->get($this->secret);
+            $accessToken = $this->redis->get($this->prefix.':access_token:'.$this->secret);
             $this->accessToken = empty($accessToken) ? $this->RefreshAccessToken() : $accessToken;
         }
         return $this->accessToken;
@@ -81,7 +83,7 @@ class CorpAPI extends API
         $this->_HttpGetParseToJson($url, false);
         $this->_CheckErrCode();
         $this->accessToken = $this->rspJson["access_token"];
-        $this->redis->set($this->secret, $this->rspJson["access_token"], $expire);
+        $this->redis->set($this->prefix.':access_token:'.$this->secret, $this->rspJson["access_token"], $expire);
         return $this->accessToken;
     }
 

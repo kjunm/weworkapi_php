@@ -71,7 +71,7 @@ class Utils {
 		if (is_object($object) || is_array($object)) {
             $array = array();
 			foreach ($object as $key => $value) {
-                if ($value == null) continue;
+                if (is_null($value)) continue;
 				$array[$key] = self::Object2Array($value);
 			}
             return $array;
