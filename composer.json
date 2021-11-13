@@ -1,0 +1,17 @@
+{
+    "name": "kjunm/weworkapi_php",
+    "description": "企业微信api接入",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kjunm",
+            "email": "1404397383@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+        }
+    }
+}
